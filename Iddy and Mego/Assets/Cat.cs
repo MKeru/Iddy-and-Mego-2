@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class Cat : MonoBehaviour
 {
+    public Animator animator;
     private Vector2 movementInput = Vector2.zero;
     private PlayerInput controller;
     [SerializeField] float rspeed = 1;
@@ -50,11 +51,13 @@ public class Cat : MonoBehaviour
     {
         //hValue = Input.GetAxisRaw("Horizontal");
         hValue = movementInput.x;
+        animator.SetFloat("Speed", rb.velocity.x);
+        animator.SetBool("isGrounded", isGrounded);
 
         //if (Input.GetButton("Jump"))
         //    jump = true;
         //else if (Input.GetButtonUp("Jump"))
-            //jump = false;
+        //jump = false;
     }
 
     private void FixedUpdate()
@@ -62,6 +65,8 @@ public class Cat : MonoBehaviour
         GroundCheck();
         
         Move(hValue, jump);
+        animator.SetFloat("Speed", rb.velocity.x);
+        animator.SetBool("isGrounded", isGrounded);
     }
 
     void GroundCheck()
@@ -87,6 +92,7 @@ public class Cat : MonoBehaviour
                 rb.AddForce(new Vector2(0f, lspeed/2 * 100));
             if(dir == 0)
                 rb.AddForce(new Vector2(0f, min * 100));
+
         }
         #endregion
         #region Movement
