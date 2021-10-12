@@ -11,26 +11,33 @@ public class Cat : MonoBehaviour
     private PlayerInput controller;
     [SerializeField] float rspeed = 1;
     [SerializeField] float lspeed = 1;
-    [SerializeField] float max = 5; //max speed
+    [SerializeField] float max = 3; //max speed
     [SerializeField] float min = 1; //min speed
     float hValue; //Direction of player movement
     float jForce; //unused
     const float groundCheckRadius = 0.2f;
-
+    float runSpeedModifier = 2f;
 
     Rigidbody2D rb;
+    Animator animator;
     [SerializeField] Transform groundCheckCollider;
     [SerializeField] LayerMask groundLayer;
 
     bool facingRight = true;
     bool jump = false;
     [SerializeField] bool isGrounded;
+    [SerializeField] bool isRunning = false;
+
+    
+
+
     private void Start()
     {
 
 
         controller = gameObject.GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
    // void Awake()
@@ -54,7 +61,14 @@ public class Cat : MonoBehaviour
         //if (Input.GetButton("Jump"))
         //    jump = true;
         //else if (Input.GetButtonUp("Jump"))
-            //jump = false;
+        //jump = false;
+
+        //if Lshift is enabled, isRunning enabled
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            isRunning = true;
+        //otherwise disable isRunning
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+            isRunning = false;
     }
 
     private void FixedUpdate()
@@ -76,6 +90,20 @@ public class Cat : MonoBehaviour
     {
         float lVal = dir * lspeed * 100 * Time.fixedDeltaTime;
         float rVal = dir * rspeed * 100 * Time.fixedDeltaTime;
+        #region Running
+
+        //float xVal = dir * runSpeedModifier * 100 * Time.deltaTime;
+
+        if (isRunning)
+        {
+            lVal *= runSpeedModifier;
+            rVal *= runSpeedModifier;
+        }
+
+        //set float xVelocity to x value of the rigidbody2d velocity.
+
+
+        #endregion
         #region Jumping
         if (isGrounded && jumpFlag)
         {
@@ -169,5 +197,9 @@ public class Cat : MonoBehaviour
             facingRight = true;
         }
         #endregion
+
+     
+
+        animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
     }
 }
