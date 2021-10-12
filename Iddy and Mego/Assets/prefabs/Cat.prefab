@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8816742085981667090}
   - component: {fileID: 8816742085981667102}
   - component: {fileID: 8816742085981667103}
+  - component: {fileID: 8359749997258860366}
   m_Layer: 7
   m_Name: Cat
   m_TagString: Player
@@ -119,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8628120bd0de541a54b016db414599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 8359749997258860366}
   rspeed: 1
   lspeed: 1
   max: 5
@@ -169,7 +171,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0b6b5831ee5f3b24e85df1ff5cf57bd4, type: 3}
+  m_Sprite: {fileID: -3441099392022374474, guid: 63fc9638b9d69d043ba795138026d671, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -217,6 +219,25 @@ CapsuleCollider2D:
   m_Offset: {x: -0.35809115, y: 0.030317353}
   m_Size: {x: 3.517971, y: 1.8310165}
   m_Direction: 1
+--- !u!95 &8359749997258860366
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8816742085981667091}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f0099b9d9cc7d814d82e62b6fe52fa4d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8816742086334250587
 GameObject:
   m_ObjectHideFlags: 0
