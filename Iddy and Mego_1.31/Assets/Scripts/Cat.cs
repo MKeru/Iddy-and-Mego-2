@@ -11,12 +11,14 @@ public class Cat : MonoBehaviour
     private PlayerInput controller;
     [SerializeField] float rspeed = 1;
     [SerializeField] float lspeed = 1;
+    [SerializeField] float slideFactor = 2f;
     [SerializeField] float max = 3; //max speed
     [SerializeField] float min = 1; //min speed
     float hValue; //Direction of player movement
     float jForce; //unused
     float runSpeedModifier = 2f;
     const float groundCheckRadius = 0.2f;
+    const float wallCheckRadius = 0.2f;
 
 
     Rigidbody2D rb;
@@ -24,9 +26,16 @@ public class Cat : MonoBehaviour
     [SerializeField] Transform groundCheckCollider;
     [SerializeField] LayerMask groundLayer;
 
+    [SerializeField] Transform gwallCheckCollider;
+
+    [SerializeField] Transform wallCheckCollider;
+    [SerializeField] LayerMask wallLayer;
+
     bool facingRight = true;
     bool jump = false;
     [SerializeField] bool isGrounded;
+    [SerializeField] bool ghitWall;
+    [SerializeField] bool hitWall;
     [SerializeField] bool isRunning = false;
     private void Start()
     {
@@ -71,7 +80,8 @@ public class Cat : MonoBehaviour
     private void FixedUpdate()
     {
         GroundCheck();
-        
+        gWallCheck();
+        WallCheck(jump);
         Move(hValue, jump);
     }
 
@@ -81,6 +91,33 @@ public class Cat : MonoBehaviour
         Collider2D[] coll = Physics2D.OverlapCircleAll(groundCheckCollider.position, groundCheckRadius, groundLayer);
         if(coll.Length > 0)
             isGrounded = true;
+    }
+
+    void gWallCheck()
+    {
+        ghitWall = false;
+        Collider2D[] gwcoll = Physics2D.OverlapCircleAll(gwallCheckCollider.position, wallCheckRadius, groundLayer);
+        if (gwcoll.Length > 0)
+            ghitWall = true;
+    }
+
+    void WallCheck(bool jumpFlag)
+    {
+        hitWall = false;
+        if(Physics2D.OverlapCircle(wallCheckCollider.position,wallCheckRadius, wallLayer) && Mathf.Abs(hValue) > 0 && rb.velocity.y < 0 && !isGrounded)
+        {
+            hitWall = true;
+            Debug.Log("sliding");
+            Vector2 v = rb.velocity;
+            v.y = -slideFactor;
+            rb.velocity = v;
+
+          /*  if (jumpFlag)
+            {
+
+            }*/
+        }
+       
     }
 
     void Move(float dir, bool jumpFlag)
@@ -100,6 +137,8 @@ public class Cat : MonoBehaviour
         {
             isGrounded = false;
             jumpFlag = false;
+          //  transform.localRotation = Quaternion.Euler(0,0,1);
+          //  rb.rotation += 1.0f;
             if(dir > 0)
                 rb.AddForce(new Vector2(0f, rspeed/2 * 100));
             if(dir < 0)
@@ -109,7 +148,11 @@ public class Cat : MonoBehaviour
         }
         #endregion
         #region Movement
-
+        if (hitWall || ghitWall)
+        {
+            rspeed = min;
+            lspeed = min;
+        }
 
         if (dir == 0)
         {
