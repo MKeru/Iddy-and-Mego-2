@@ -650,6 +650,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Iddy
       objectReference: {fileID: 0}
+    - target: {fileID: 7912237780671787236, guid: aea85b572250e204ca3486a4048bc624, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.64705884
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912237780671787236, guid: aea85b572250e204ca3486a4048bc624, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.8235295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912237780671787236, guid: aea85b572250e204ca3486a4048bc624, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.9568628
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aea85b572250e204ca3486a4048bc624, type: 3}
 --- !u!1 &586517203
