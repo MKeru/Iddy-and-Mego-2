@@ -11,14 +11,15 @@ public class Cat : MonoBehaviour
     private PlayerInput controller;
     [SerializeField] float rspeed = 1;
     [SerializeField] float lspeed = 1;
-    [SerializeField] float slideFactor = 2f;
+    [SerializeField] float slideFactor = 2f; // climbing modifier
+    [SerializeField] float climbFactor = 25f; // sliding modifier
     [SerializeField] float max = 3; //max speed
     [SerializeField] float min = 1; //min speed
     float hValue; //Direction of player movement
     float jForce; //unused
     float runSpeedModifier = 2f;
     const float groundCheckRadius = 0.2f;
-    const float wallCheckRadius = 0.2f;
+    const float wallCheckRadius = 0.1f;
 
 
     Rigidbody2D rb;
@@ -27,29 +28,24 @@ public class Cat : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
 
     [SerializeField] Transform gwallCheckCollider;
-
+    [SerializeField] Transform backCheckCollider;
     [SerializeField] Transform wallCheckCollider;
     [SerializeField] LayerMask wallLayer;
 
     bool facingRight = true;
     bool jump = false;
-    [SerializeField] bool isGrounded;
-    [SerializeField] bool ghitWall;
-    [SerializeField] bool hitWall;
+    [SerializeField] bool isGrounded; // on ground
+    [SerializeField] bool ghitWall; // ground/ledge wall
+    [SerializeField] bool bhitWall; // back side hits wall
+    [SerializeField] bool hitWall; // front side hits wall
     [SerializeField] bool isRunning = false;
     private void Start()
     {
-
-
         controller = gameObject.GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
-   // void Awake()
-   // {
-        
-    //}
     public void OnMove(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
@@ -61,27 +57,22 @@ public class Cat : MonoBehaviour
     }
     void Update()
     {
-        //hValue = Input.GetAxisRaw("Horizontal");
         hValue = movementInput.x;
-
-        //if (Input.GetButton("Jump"))
-        //    jump = true;
-        //else if (Input.GetButtonUp("Jump"))
-        //jump = false;
-
         //if Lshift is clicked enable isRunning
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+      /*  if (Input.GetKeyDown(KeyCode.LeftShift))
             isRunning = true;
         //if LShift is released disable isRunning
         if (Input.GetKeyUp(KeyCode.LeftShift))
-            isRunning = false;
+            isRunning = false;*/
     }
 
     private void FixedUpdate()
     {
         GroundCheck();
         gWallCheck();
-        WallCheck(jump);
+        WallCheck();
+        BackCheck();
+        WallMovement(jump);
         Move(hValue, jump);
     }
 
@@ -101,23 +92,72 @@ public class Cat : MonoBehaviour
             ghitWall = true;
     }
 
-    void WallCheck(bool jumpFlag)
+    void WallCheck()
     {
         hitWall = false;
-        if(Physics2D.OverlapCircle(wallCheckCollider.position,wallCheckRadius, wallLayer) && Mathf.Abs(hValue) > 0 && rb.velocity.y < 0 && !isGrounded)
-        {
+        Collider2D[] wcoll = Physics2D.OverlapCircleAll(wallCheckCollider.position, wallCheckRadius, wallLayer);
+   
+        if (wcoll.Length > 0)
             hitWall = true;
-            Debug.Log("sliding");
-            Vector2 v = rb.velocity;
+    }
+
+    void BackCheck()
+    {
+        bhitWall = false;
+        Collider2D[] bgwcoll = Physics2D.OverlapCircleAll(backCheckCollider.position, wallCheckRadius, groundLayer);
+        Collider2D[] bwcoll = Physics2D.OverlapCircleAll(backCheckCollider.position, wallCheckRadius, wallLayer);
+        if (bgwcoll.Length > 0 || bwcoll.Length > 0)
+            bhitWall = true;
+    }
+
+    void WallMovement(bool jumpFlag)
+    {
+        Vector2 v = rb.velocity;
+        // climbing
+        if((hitWall || (ghitWall && !isGrounded))  && Mathf.Abs(hValue) > 0 && !isGrounded && (rspeed > min || lspeed > min))
+        {
+            // going right
+            if(hValue > 0 && rspeed > min)
+            {
+                lspeed = min;
+                v.y = rspeed * climbFactor * Time.fixedDeltaTime;
+                rb.velocity = v;
+                if (jumpFlag) // wall jump
+                {
+                    jumpFlag = false;
+                    rb.velocity = Vector2.up * rspeed / 3 * 5;
+                }
+                    
+                rspeed -= .1f;
+
+                if (rspeed <= min)
+                    rspeed = 1;
+            }
+
+            // going left
+            if (hValue < 0 && lspeed > min)
+            {
+                rspeed = min;
+                v.y = lspeed * climbFactor * Time.fixedDeltaTime;
+                rb.velocity = v;
+                if (jumpFlag)
+                {
+                    jumpFlag = false;
+                    rb.velocity = Vector2.up * lspeed / 3 * 5;
+                }
+                lspeed -= .1f;
+
+                if (lspeed <= min)
+                    lspeed = 1;
+            }
+        }
+        //sliding
+        if ((hitWall || (ghitWall && !isGrounded)) && Mathf.Abs(hValue) > 0 && rb.velocity.y < 0 && !isGrounded)
+        {
             v.y = -slideFactor;
             rb.velocity = v;
-
-          /*  if (jumpFlag)
-            {
-
-            }*/
         }
-       
+
     }
 
     void Move(float dir, bool jumpFlag)
@@ -133,22 +173,25 @@ public class Cat : MonoBehaviour
         }
 
         #region Jumping
-        if (isGrounded && jumpFlag)
+        if ((isGrounded) && jumpFlag)
         {
             isGrounded = false;
             jumpFlag = false;
-          //  transform.localRotation = Quaternion.Euler(0,0,1);
-          //  rb.rotation += 1.0f;
-            if(dir > 0)
-                rb.AddForce(new Vector2(0f, rspeed/2 * 100));
+
+            if (dir > 0)
+                rb.velocity = Vector2.up * rspeed / 2 * 5;
+  
             if(dir < 0)
-                rb.AddForce(new Vector2(0f, lspeed/2 * 100));
-            if(dir == 0)
-                rb.AddForce(new Vector2(0f, min * 100));
+                rb.velocity = Vector2.up * lspeed / 2 * 5;
+    
+            if (dir == 0)
+                rb.velocity = Vector2.up * min * 5;
+
         }
         #endregion
         #region Movement
-        if (hitWall || ghitWall)
+        // if hitting wall, momentum set to 0(speeds set to minimum)
+        if (((hitWall && isGrounded) && !bhitWall) || (!hitWall && bhitWall) || (ghitWall && !bhitWall) || (!ghitWall && bhitWall))
         {
             rspeed = min;
             lspeed = min;
@@ -183,7 +226,7 @@ public class Cat : MonoBehaviour
             }
         }
 
-        if(dir > 0) // going right
+        if(dir > 0 && !hitWall) // going right
         {
             Vector2 tVelocity = new Vector2(rVal, rb.velocity.y);
             rb.velocity = tVelocity;
@@ -202,7 +245,7 @@ public class Cat : MonoBehaviour
             }
         }
         
-        if(dir < 0) // going left
+        if(dir < 0 && !hitWall) // going left
         {
             Vector2 tVelocity = new Vector2(lVal, rb.velocity.y);
             rb.velocity = tVelocity;
