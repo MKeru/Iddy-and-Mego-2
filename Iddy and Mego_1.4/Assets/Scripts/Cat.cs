@@ -15,6 +15,9 @@ public class Cat : MonoBehaviour
     [SerializeField] float climbFactor = 25f; // sliding modifier
     [SerializeField] float max = 3; //max speed
     [SerializeField] float min = 1; //min speed
+
+    [SerializeField] float jumpSpeed = 8f;
+
     float hValue; //Direction of player movement
     float jForce; //unused
     float runSpeedModifier = 2f;
@@ -178,6 +181,9 @@ public class Cat : MonoBehaviour
             isGrounded = false;
             jumpFlag = false;
 
+            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+
+            /*
             if (dir > 0)
                 rb.velocity = Vector2.up * rspeed / 2 * 5;
   
@@ -186,6 +192,7 @@ public class Cat : MonoBehaviour
     
             if (dir == 0)
                 rb.velocity = Vector2.up * min * 5;
+            */
 
         }
         #endregion
