@@ -208,6 +208,7 @@ public class Cat : MonoBehaviour
 
         }
         #endregion
+        
         #region Movement
         // if hitting wall, momentum set to 0(speeds set to minimum)
         if (((hitWall && isGrounded) && !bhitWall) || (!hitWall && bhitWall) || (ghitWall && !bhitWall) || (!ghitWall && bhitWall))
