@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 
 [RequireComponent(typeof(PlayerInput))]
@@ -15,7 +16,6 @@ public class Cat : MonoBehaviour
     [SerializeField] float climbFactor = 25f; // sliding modifier
     [SerializeField] float max = 3; //max speed
     [SerializeField] float min = 1; //min speed
-
     [SerializeField] float jumpSpeed = 8f;
 
     float hValue; //Direction of player movement
@@ -27,6 +27,7 @@ public class Cat : MonoBehaviour
 
     Rigidbody2D rb;
     Animator animator;
+    
     [SerializeField] Transform groundCheckCollider;
     [SerializeField] LayerMask groundLayer;
 
@@ -281,14 +282,19 @@ public class Cat : MonoBehaviour
             }
         }
 
+        Vector3 charScale = transform.localScale;
         if(facingRight && dir < 0)
         {
-            transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+            //transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+            charScale.x *= -1;
+            transform.localScale = charScale;
             facingRight = false;
         }
         else if(!facingRight && dir > 0)
         {
-            transform.localScale = new Vector3(.5f, .5f, 1);
+            //transform.localScale = new Vector3(.5f, .5f, 1);
+            charScale.x = Math.Abs(charScale.x);
+            transform.localScale = charScale;
             facingRight = true;
         }
         #endregion
