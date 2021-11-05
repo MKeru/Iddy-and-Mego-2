@@ -12,11 +12,11 @@ public class Player : MonoBehaviour
     private Vector2 movementInput = Vector2.zero;
 
     //for momentum movement
-    [SerializeField] float maxSpeed = 3f;
-    [SerializeField] float accel = 10f;
+    [SerializeField] float maxSpeed = 5f;
+    [SerializeField] float accel = 20f;
 
     //jumping
-    [SerializeField] float jumpSpeed = 10f;
+    [SerializeField] float jumpSpeed = 14f;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] bool grounded;
 
@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
         Vector2 positionLeft = new Vector2(transform.position.x - 0.52f, transform.position.y);
         Vector2 positionRight = new Vector2(transform.position.x + 0.52f, transform.position.y);
         Vector2 direction = Vector2.down;
-        float distance = 0.6f;
+        float distance = 0.76f;
 
         Debug.DrawRay(positionLeft, direction, Color.green);
         Debug.DrawRay(positionRight, direction, Color.green);
