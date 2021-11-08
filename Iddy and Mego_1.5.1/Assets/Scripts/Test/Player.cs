@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -58,6 +59,10 @@ public class Player : MonoBehaviour
         WallCheck();
         IsGrounded();
         Move(dir);
+
+        //animator
+        //jumping
+        animator.SetFloat("yVelocity", rb.velocity.y);
 
         //turning
         Vector3 currentScale = transform.localScale;
@@ -124,12 +129,24 @@ public class Player : MonoBehaviour
             rb.AddForce(new Vector2(0, jumpSpeed), ForceMode2D.Impulse);
         }
     }
+
+    void Land()
+    {
+
+    }
     
     void Move(float dir)
     {
         //current horizontal speed
         float xSpeed = rb.velocity.x * Time.fixedDeltaTime * 100;
 
+        //animator
+        if (dir != 0) {
+            animator.SetBool("LRHeld", true);
+        } else {
+            animator.SetBool("LRHeld", false);
+        }
+        
         //movement with AddForce
         //if holding "right"
         if (dir > 0f) 
@@ -175,6 +192,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        animator.SetFloat("xVelocity", Math.Abs(xSpeed));
+        //animator.SetFloat("xVelocity", Math.Abs(xSpeed));
     }
 }
