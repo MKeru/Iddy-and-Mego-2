@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     //wall climbing
     [SerializeField] float slideFactor = 2f; // climbing modifier
     [SerializeField] float climbFactor = 25f; // sliding modifier
+    [SerializeField] bool wall;
 
     //for sprite flipping
     float horizontalValue;
@@ -54,6 +55,7 @@ public class Player : MonoBehaviour
     {
         float dir = horizontalValue;
 
+        WallCheck();
         IsGrounded();
         Move(dir);
 
@@ -70,24 +72,48 @@ public class Player : MonoBehaviour
         transform.localScale = currentScale;
     }
 
+    //player position checks
+
+    //checks for ground
     bool IsGrounded()
     {
         Vector2 positionLeft = new Vector2(transform.position.x - 0.52f, transform.position.y);
         Vector2 positionRight = new Vector2(transform.position.x + 0.52f, transform.position.y);
+        Vector2 positionMid = new Vector2(transform.position.x, transform.position.y);
         Vector2 direction = Vector2.down;
         float distance = 0.76f;
 
         Debug.DrawRay(positionLeft, direction, Color.green);
         Debug.DrawRay(positionRight, direction, Color.green);
+        Debug.DrawRay(positionMid, direction, Color.green);
         RaycastHit2D hitLeft = Physics2D.Raycast(positionLeft, direction, distance, groundLayer);
         RaycastHit2D hitRight = Physics2D.Raycast(positionRight, direction, distance, groundLayer);
+        RaycastHit2D hitMid = Physics2D.Raycast(positionMid, direction, distance, groundLayer);
 
-        if (hitLeft.collider != null || hitRight.collider != null) {
+        if (hitLeft.collider != null || hitRight.collider != null || hitMid.collider != null) {
             grounded = true;
             return true;
         }
 
         grounded = false;
+        return false;
+    }
+
+    //checks for wall in front
+    bool WallCheck()
+    {
+        Vector2 position = transform.position;
+        Vector2 direction = Vector2.right;
+        float distance = 0.95f;
+
+        Debug.DrawRay(position, direction, Color.green);
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
+
+        if (hit.collider != null) {
+            wall = true;
+            return true;
+        }
+        wall = false;
         return false;
     }
     
@@ -148,5 +174,7 @@ public class Player : MonoBehaviour
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
         }
+
+        animator.SetFloat("xVelocity", Math.Abs(xSpeed));
     }
 }
