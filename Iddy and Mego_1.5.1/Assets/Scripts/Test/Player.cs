@@ -177,12 +177,12 @@ public class Player : MonoBehaviour
         //if holding neither "left" nor "right"
         else if (dir == 0) {
             //if current velocity is greater than 0.01
-            if (xSpeed > 0.01f) {
+            if (xSpeed > 0.5f) {
                 //decelerate player by accel constant
                 rb.AddForce(new Vector2(-(accel), 0));
             }
             //if current velocity is less than -0.01
-            else if (xSpeed < -0.01f) {
+            else if (xSpeed < -0.5f) {
                 rb.AddForce(new Vector2(accel, 0));
             }
             else {
@@ -192,6 +192,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        //animator.SetFloat("xVelocity", Math.Abs(xSpeed));
+        animator.SetFloat("xVelocity", Math.Abs(xSpeed));
     }
 }
