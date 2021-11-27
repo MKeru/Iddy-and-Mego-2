@@ -9,11 +9,15 @@ public class Player : MonoBehaviour
 {
     Rigidbody2D rb;
     Animator animator;
+    LevelManager gameLevelManager;
+
+    //spawn point
+    public Vector3 spawnPoint;
 
     private Vector2 movementInput = Vector2.zero;
 
     //for momentum movement
-    [SerializeField] float maxSpeed = 5f;
+    [SerializeField] float maxSpeed = 8f;
     [SerializeField] float accel = 20f;
 
     //jumping
@@ -34,6 +38,8 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        spawnPoint = transform.position;
+        gameLevelManager = FindObjectOfType<LevelManager>();
     }
 
     public void OnMove(InputValue input)
@@ -193,5 +199,11 @@ public class Player : MonoBehaviour
         }
 
         animator.SetFloat("xVelocity", Math.Abs(xSpeed));
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.tag == "Enemy") {
+            gameLevelManager.Respawn();
+        }
     }
 }

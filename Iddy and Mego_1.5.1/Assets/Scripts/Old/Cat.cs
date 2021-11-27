@@ -305,10 +305,4 @@ public class Cat : MonoBehaviour
         //set float xVelocity according to the x value of the RigidBody2D Velocity
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
     }
-
-    public void Die()
-    {
-        dead = true;
-        FindObjectOfType<LevelManager>().Restart();
-    }
 }
