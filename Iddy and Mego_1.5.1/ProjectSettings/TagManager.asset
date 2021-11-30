@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - CMCamera
   - Mego
+  - Attack
   layers:
   - Default
   - TransparentFX

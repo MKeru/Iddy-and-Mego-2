@@ -14,8 +14,6 @@ public class IddyController : MonoBehaviour
     //spawn point
     public Vector3 spawnPoint;
 
-    //private Vector2 movementInput = Vector2.zero;
-
     //for momentum movement
     [SerializeField] float maxSpeed = 8f;
     [SerializeField] float accel = 20f;
@@ -44,54 +42,18 @@ public class IddyController : MonoBehaviour
         Debug.Log("Iddy start complete");
     }
 
-    /*
-    public void OnMove(InputValue input)
-    {
-        Vector2 inputVec = input.Get<Vector2>();
-        movementInput = new Vector2(inputVec.x, inputVec.y);
-    }
-
-    public void OnJump()
-    {
-        Jump();
-        Debug.Log("Iddy jumped");
-    }
-
-    public void OnSwitch() {
-        gameLevelManager.Switch();
-    }
-    */
-
     void Update()
     {
-        //horizontalValue = movementInput.x;
+
     }
 
     private void FixedUpdate()
     {
-        //float dir = horizontalValue;
-
         WallCheck();
         IsGrounded();
-        //Move(dir);
 
         //animator
-        //jumping
         animator.SetFloat("yVelocity", rb.velocity.y);
-
-        //turning
-        /*
-        Vector3 currentScale = transform.localScale;
-        if (facingRight && dir < 0) {
-            currentScale.x *= -1;
-            facingRight = false;
-        }
-        else if (!facingRight && dir > 0) {
-            currentScale.x = Math.Abs(currentScale.x);
-            facingRight = true;
-        }
-        transform.localScale = currentScale;
-        */
     }
 
     //player position checks

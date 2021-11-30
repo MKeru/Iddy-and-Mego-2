@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8975717827118252878}
   - component: {fileID: 8975717827118252865}
   - component: {fileID: 8975717827118252864}
-  - component: {fileID: 8975717827118252877}
   - component: {fileID: 8975717827118252874}
   m_Layer: 0
   m_Name: Iddy
@@ -161,36 +160,6 @@ PolygonCollider2D:
       - {x: -0.82, y: -0.5}
       - {x: -0.82, y: -0.1}
       - {x: -0.52, y: 0.2}
---- !u!114 &8975717827118252877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8975717827118252867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: f7d19b9bb7adf3c459990dba415d0aaa, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &8975717827118252874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f563f1377d8424dbd9febb1695d18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPoint: {x: 0, y: 0, z: 0}
   maxSpeed: 8
   accel: 20
   jumpSpeed: 14
@@ -210,6 +180,3 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   grounded: 0
-  slideFactor: 2
-  climbFactor: 25
-  wall: 0

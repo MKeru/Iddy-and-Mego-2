@@ -31,14 +31,14 @@ public class LevelManager : MonoBehaviour
 
     public void Respawn() {
         if (iddyPlayer.gameObject.activeSelf) {
-            iddyPlayer.gameObject.SetActive(false);
+            //iddyPlayer.gameObject.SetActive(false);
             iddyPlayer.transform.position = iddyPlayer.spawnPoint;
-            iddyPlayer.gameObject.SetActive(true);
+            //iddyPlayer.gameObject.SetActive(true);
         }
         else if (megoPlayer.gameObject.activeSelf) {
-            megoPlayer.gameObject.SetActive(false);
+            //megoPlayer.gameObject.SetActive(false);
             megoPlayer.transform.position = megoPlayer.spawnPoint;
-            megoPlayer.gameObject.SetActive(true);
+            //megoPlayer.gameObject.SetActive(true);
         }
     }
 

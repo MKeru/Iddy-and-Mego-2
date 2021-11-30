@@ -14,8 +14,6 @@ public class MegoController : MonoBehaviour
     //spawn point
     public Vector3 spawnPoint;
 
-    //private Vector2 movementInput = Vector2.zero;
-
     //for momentum movement
     [SerializeField] float maxSpeed = 8f;
     [SerializeField] float accel = 20f;
@@ -24,6 +22,9 @@ public class MegoController : MonoBehaviour
     [SerializeField] float jumpSpeed = 14f;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] bool grounded;
+
+    [SerializeField] GameObject attack;
+    bool isAttacking;
 
     //wall climbing
     //[SerializeField] float slideFactor = 2f; // climbing modifier
@@ -40,58 +41,36 @@ public class MegoController : MonoBehaviour
         animator = GetComponent<Animator>();
         spawnPoint = transform.position;
         gameLevelManager = FindObjectOfType<LevelManager>();
+        attack.SetActive(false);
 
         Debug.Log("Mego start complete");
     }
 
-    /*
-    public void OnMove(InputValue input)
-    {
-        Vector2 inputVec = input.Get<Vector2>();
-        movementInput = new Vector2(inputVec.x, inputVec.y);
+    public void Swipe() {
+        isAttacking = true;
+        StartCoroutine(DoSwipe(.4f));
     }
 
-    public void OnJump()
+    IEnumerator DoSwipe(float sec)
     {
-        Jump();
-        Debug.Log("Mego jumped");
+        attack.SetActive(true);
+        yield return new WaitForSeconds(sec);
+        attack.SetActive(false);
+        isAttacking = false;
     }
-
-    public void OnSwitch() {
-        gameLevelManager.Switch();
-    }
-    */
 
     void Update()
     {
-        //horizontalValue = movementInput.x;
+        
     }
 
     private void FixedUpdate()
     {
-        //float dir = horizontalValue;
-
         WallCheck();
         IsGrounded();
-        //Move(dir);
 
         //animator
-        //jumping
         animator.SetFloat("yVelocity", rb.velocity.y);
-
-        //turning
-        /*
-        Vector3 currentScale = transform.localScale;
-        if (facingRight && dir < 0) {
-            currentScale.x *= -1;
-            facingRight = false;
-        }
-        else if (!facingRight && dir > 0) {
-            currentScale.x = Math.Abs(currentScale.x);
-            facingRight = true;
-        }
-        transform.localScale = currentScale;
-        */
     }
 
     //player position checks
@@ -139,7 +118,9 @@ public class MegoController : MonoBehaviour
         return false;
     }
     
-     public void Jump()
+    
+
+    public void Jump()
     {
         if (IsGrounded()) {
             //rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
@@ -224,7 +205,7 @@ public class MegoController : MonoBehaviour
         animator.SetFloat("xVelocity", Math.Abs(xSpeed));
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerStay2D(Collider2D other) {
         if (other.tag == "Enemy") {
             gameLevelManager.Respawn();
         }

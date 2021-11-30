@@ -65,4 +65,10 @@ public class Controller : MonoBehaviour
             gameLevelManager.Switch();
         }
     }
+
+    public void OnSwipe() {
+        if (megoPlayer.gameObject.activeSelf) {
+            megoPlayer.Swipe();
+        }
+    }
 }
