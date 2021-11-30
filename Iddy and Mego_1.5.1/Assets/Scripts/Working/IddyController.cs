@@ -5,7 +5,7 @@ using System;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
-public class Player : MonoBehaviour
+public class IddyController : MonoBehaviour
 {
     Rigidbody2D rb;
     Animator animator;
@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     //spawn point
     public Vector3 spawnPoint;
 
-    private Vector2 movementInput = Vector2.zero;
+    //private Vector2 movementInput = Vector2.zero;
 
     //for momentum movement
     [SerializeField] float maxSpeed = 8f;
@@ -26,12 +26,12 @@ public class Player : MonoBehaviour
     [SerializeField] bool grounded;
 
     //wall climbing
-    [SerializeField] float slideFactor = 2f; // climbing modifier
-    [SerializeField] float climbFactor = 25f; // sliding modifier
-    [SerializeField] bool wall;
+    //[SerializeField] float slideFactor = 2f; // climbing modifier
+    //[SerializeField] float climbFactor = 25f; // sliding modifier
+    //[SerializeField] bool wall;
 
     //for sprite flipping
-    float horizontalValue;
+    //float horizontalValue;
     bool facingRight = true;
 
     private void Start() 
@@ -40,8 +40,11 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         spawnPoint = transform.position;
         gameLevelManager = FindObjectOfType<LevelManager>();
+
+        Debug.Log("Iddy start complete");
     }
 
+    /*
     public void OnMove(InputValue input)
     {
         Vector2 inputVec = input.Get<Vector2>();
@@ -51,26 +54,33 @@ public class Player : MonoBehaviour
     public void OnJump()
     {
         Jump();
+        Debug.Log("Iddy jumped");
     }
+
+    public void OnSwitch() {
+        gameLevelManager.Switch();
+    }
+    */
 
     void Update()
     {
-        horizontalValue = movementInput.x;
+        //horizontalValue = movementInput.x;
     }
 
     private void FixedUpdate()
     {
-        float dir = horizontalValue;
+        //float dir = horizontalValue;
 
         WallCheck();
         IsGrounded();
-        Move(dir);
+        //Move(dir);
 
         //animator
         //jumping
         animator.SetFloat("yVelocity", rb.velocity.y);
 
         //turning
+        /*
         Vector3 currentScale = transform.localScale;
         if (facingRight && dir < 0) {
             currentScale.x *= -1;
@@ -81,6 +91,7 @@ public class Player : MonoBehaviour
             facingRight = true;
         }
         transform.localScale = currentScale;
+        */
     }
 
     //player position checks
@@ -121,14 +132,14 @@ public class Player : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
 
         if (hit.collider != null) {
-            wall = true;
+            //wall = true;
             return true;
         }
-        wall = false;
+        //wall = false;
         return false;
     }
     
-    void Jump()
+    public void Jump()
     {
         if (IsGrounded()) {
             //rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
@@ -141,10 +152,22 @@ public class Player : MonoBehaviour
 
     }
     
-    void Move(float dir)
+    public void Move(float dir)
     {
         //current horizontal speed
         float xSpeed = rb.velocity.x * Time.fixedDeltaTime * 100;
+
+        //turning
+        Vector3 currentScale = transform.localScale;
+        if (facingRight && dir < 0) {
+            currentScale.x *= -1;
+            facingRight = false;
+        }
+        else if (!facingRight && dir > 0) {
+            currentScale.x = Math.Abs(currentScale.x);
+            facingRight = true;
+        }
+        transform.localScale = currentScale;
 
         //animator
         if (dir != 0) {

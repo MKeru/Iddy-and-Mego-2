@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Basketball
   - Enemy
+  - CMCamera
+  - Mego
   layers:
   - Default
   - TransparentFX
