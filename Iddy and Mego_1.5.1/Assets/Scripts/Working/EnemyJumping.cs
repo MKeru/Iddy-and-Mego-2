@@ -6,6 +6,7 @@ public class EnemyJumping : MonoBehaviour
 {
     Rigidbody2D rb;
     bool isJumping = false;
+    [SerializeField] int jumpForce = 100;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,7 @@ public class EnemyJumping : MonoBehaviour
 
     IEnumerator Jump() {
         isJumping = true;
-        rb.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
         yield return new WaitForSeconds(3f);
         isJumping = false;
     }

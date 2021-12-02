@@ -9,6 +9,7 @@ TagManager:
   - CMCamera
   - Mego
   - Attack
+  - vasehead
   layers:
   - Default
   - TransparentFX

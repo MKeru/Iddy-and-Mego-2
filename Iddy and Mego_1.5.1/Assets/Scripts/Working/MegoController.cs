@@ -201,9 +201,22 @@ public class MegoController : MonoBehaviour
         animator.SetFloat("xVelocity", Math.Abs(xSpeed));
     }
 
-    void OnTriggerStay2D(Collider2D other) {
+    void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Enemy") {
             gameLevelManager.Respawn();
+        }
+        else if (other.tag == "vasehead") {
+            gameObject.transform.parent = other.gameObject.transform;
+            Vector3 currentScale = transform.localScale;
+            currentScale.x *= -1;
+            transform.localScale = currentScale;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other) {
+        if (other.tag == "vasehead") {
+            gameObject.transform.parent = null;
+            
         }
     }
 }

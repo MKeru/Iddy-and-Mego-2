@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShowerEnemy : MonoBehaviour
 {
     Rigidbody2D rb;
+
     int direction = 1;
     bool cooldown = false;
 
