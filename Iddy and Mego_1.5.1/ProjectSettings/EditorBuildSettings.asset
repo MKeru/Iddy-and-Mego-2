@@ -18,8 +18,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Level 03.unity
     guid: 1663a419e2ab1fd4785fb015846adcf9
   - enabled: 1
-    path: Assets/Scenes/minigame.unity
-    guid: 8e65d87e45906b24c83d21741c7ea6dd
+    path: Assets/Scenes/working minigame.unity
+    guid: 8d72102f87dc9834b8a7264ed8032206
   - enabled: 1
     path: Assets/Scenes/credits.unity
     guid: 3769a2dd28ecb9b42963333c2fc65dd2
