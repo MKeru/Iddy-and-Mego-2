@@ -11,9 +11,6 @@ public class MegoController : MonoBehaviour
     Animator animator;
     LevelManager gameLevelManager;
 
-    //spawn point
-    public Vector3 spawnPoint;
-
     //for momentum movement
     [SerializeField] float maxSpeed = 8f;
     [SerializeField] float accel = 20f;
@@ -39,7 +36,6 @@ public class MegoController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        spawnPoint = transform.position;
         gameLevelManager = FindObjectOfType<LevelManager>();
         attack.SetActive(false);
 

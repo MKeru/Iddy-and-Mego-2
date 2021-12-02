@@ -21440,7 +21440,6 @@ GameObject:
   m_Component:
   - component: {fileID: 424137811}
   - component: {fileID: 424137810}
-  - component: {fileID: 424137812}
   - component: {fileID: 424137809}
   - component: {fileID: 424137813}
   - component: {fileID: 424137814}
@@ -21543,18 +21542,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &424137812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424137808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c49804904683854449dd68d0dfab5336, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &424137813
 Rigidbody2D:
   serializedVersion: 4
@@ -21588,6 +21575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5653d86a2f7e5624fb7b8504cff1e1b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 2
 --- !u!1 &706353040
 GameObject:
   m_ObjectHideFlags: 0
@@ -21883,10 +21871,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8975717827118252876, guid: 82577a4d12c78b3428b657eef0a02822, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

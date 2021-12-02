@@ -10,6 +10,8 @@ public class LevelManager : MonoBehaviour
     public MegoController megoPlayer;
     public CameraSwitcher cmCam;
 
+    public Vector3 temp_spawnPoint;
+
     bool tutorial = false;
     // Start is called before the first frame update
     void Start()
@@ -26,37 +28,45 @@ public class LevelManager : MonoBehaviour
             megoPlayer.gameObject.SetActive(false);
         }
         
+        temp_spawnPoint = iddyPlayer.transform.position;
+        
         cmCam = FindObjectOfType<CameraSwitcher>();
+    }
+
+    void Update() {
+
     }
 
     public void Respawn() {
         if (iddyPlayer.gameObject.activeSelf) {
             //iddyPlayer.gameObject.SetActive(false);
-            iddyPlayer.transform.position = iddyPlayer.spawnPoint;
+            iddyPlayer.transform.position = temp_spawnPoint;
             //iddyPlayer.gameObject.SetActive(true);
         }
         else if (megoPlayer.gameObject.activeSelf) {
             //megoPlayer.gameObject.SetActive(false);
-            megoPlayer.transform.position = megoPlayer.spawnPoint;
+            megoPlayer.transform.position = temp_spawnPoint;
             //megoPlayer.gameObject.SetActive(true);
         }
     }
 
     public void Switch() {
         if (iddyPlayer.gameObject.activeSelf) {
-            //set spawn of now inactive character to spawn point
-            iddyPlayer.transform.position = iddyPlayer.spawnPoint;
-            //deactivate current character
-            iddyPlayer.gameObject.SetActive(false);
             //activate other character
             megoPlayer.gameObject.SetActive(true);
+            //set spawn of now inactive character to spawn point
+            iddyPlayer.transform.position = temp_spawnPoint;
+            megoPlayer.transform.position = temp_spawnPoint;
+            //deactivate current character
+            iddyPlayer.gameObject.SetActive(false);
             //switch cinemachine follow target
             cmCam.FollowSwitch(megoPlayer.transform);
         }
         else if (megoPlayer.gameObject.activeSelf) {
-            megoPlayer.transform.position = megoPlayer.spawnPoint;
-            megoPlayer.gameObject.SetActive(false);
             iddyPlayer.gameObject.SetActive(true);
+            megoPlayer.transform.position = temp_spawnPoint;
+            iddyPlayer.transform.position = temp_spawnPoint;
+            megoPlayer.gameObject.SetActive(false);
             cmCam.FollowSwitch(iddyPlayer.transform);
         }
     }
