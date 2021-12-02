@@ -202,14 +202,17 @@ public class MegoController : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Enemy") {
-            gameLevelManager.Respawn();
-        }
-        else if (other.tag == "vasehead") {
+        if (other.tag == "vasehead") {
             gameObject.transform.parent = other.gameObject.transform;
             Vector3 currentScale = transform.localScale;
             currentScale.x *= -1;
             transform.localScale = currentScale;
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D other) {
+        if (other.tag == "Enemy" ) {
+            gameLevelManager.Respawn();
         }
     }
 
