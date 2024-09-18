@@ -20,3 +20,7 @@
 ---
 
 Have fun exploring with Iddy and Mego! 😺🎮
+
+---
+
+**This was forked off of an old group project. Please check contributions for credit to my team members.**
